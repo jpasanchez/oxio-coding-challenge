@@ -7,23 +7,36 @@
 </template>
 
 <style lang="scss">
+//
+//$oxio-green: #87fac8;
+//$oxio-primary-blue: #012730;
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: oxio-serif, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  //color: #2c3e50;
+	background-image: linear-gradient(#083f6e, #012730);
+	color: #ffffff;
 }
 
 nav {
   padding: 30px;
+	font-family: oxio-sans-serif;
+	color: $oxio-green;
 
-  a {
+  > a {
     font-weight: bold;
-    color: #2c3e50;
+		color: #ffffff;
+		text-decoration: none;
+
+		&:active {
+			text-decoration: underline;
+		}
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: $oxio-green;
     }
   }
 }

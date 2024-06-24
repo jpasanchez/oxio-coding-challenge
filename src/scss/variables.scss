@@ -1,0 +1,16 @@
+$oxio-green: #87fac8;
+$oxio-primary-blue: #012730;
+
+@font-face {
+  font-family: oxio-serif;
+  src: url('@/assets/fonts/oxio-serif.woff2');
+}
+
+@font-face {
+  font-family: oxio-sans-serif;
+  src: url('@/assets/fonts/oxio-sans-serif.woff2');
+}
+
+h1, h2, h3, h4, h5, label {
+  font-family: oxio-sans-serif, sans-serif;
+}

@@ -1,22 +1,43 @@
 <template>
   <div class="home">
-    <VTable
-				:data="posts">
-      <template #head>
-        <tr>
-					<VTh sortKey="userId" defaultSort="desc">User Id</VTh>
-					<VTh sortKey="title">Title</VTh>
-					<VTh :sortKey="bodyLength">Body</VTh>
-        </tr>
-      </template>
-      <template #body="{rows}">
-        <tr v-for="row in rows" :key="row.id">
-          <td>{{ row.userId }}</td>
-          <td>{{ row.title }}</td>
-          <td>{{ row.body }}</td>
-        </tr>
-      </template>
-    </VTable>
+		<div class="sorting-table">
+			<div class="sorting-table__table">
+				<VTable
+					:data="posts"
+					:page-size="10"
+					v-model:currentPage="currentPage"
+					@totalPagesChanged="totalPages = $event"
+					border="0"
+					cellspacing="0"
+					cellpadding="0"
+				>
+					<template #head>
+						<tr>
+							<VTh sortKey="userId" defaultSort="desc">User Id</VTh>
+							<VTh sortKey="title">Title</VTh>
+							<VTh :sortKey="bodyLength">Body</VTh>
+						</tr>
+					</template>
+					<template #body="{rows}">
+						<tr v-for="row in rows" :key="row.id">
+							<td>{{ row.userId }}</td>
+							<td>{{ row.title }}</td>
+							<td>{{ row.body }}</td>
+						</tr>
+					</template>
+				</VTable>
+			</div>
+
+
+			<div class="sorting-table__pagination">
+				<VTPagination
+					v-model:currentPage="currentPage"
+					:total-pages="totalPages"
+					:boundary-links="true"
+				/>
+			</div>
+
+		</div>
   </div>
 </template>
 
@@ -34,6 +55,8 @@ export default {
     error: null,
 		loading: true,
 		posts: [],
+		totalPages: 1,
+		currentPage: 1
   }),
   async beforeRouteEnter(to, from, next) {
     try {
@@ -62,3 +85,81 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.sorting-table__table {
+	display: flex;
+	justify-content: center;
+	font-size: 17px;
+}
+
+.sorting-table__pagination {
+	margin-top: 20px;
+}
+
+.v-table {
+	width: 75%;
+	display: grid;
+
+	thead {
+		display: block;
+		margin-bottom: 20px;
+	}
+
+	tbody {
+		display: grid;
+		gap: 20px;
+	}
+
+	.v-th {
+		font-family: oxio-sans-serif;
+		display: inline-block;
+	}
+
+	tr {
+		display: inline-grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: auto;
+		width: 100%;
+		align-items: center;
+	}
+}
+
+.pagination {
+	list-style-type: none;
+	display: inline-grid;
+	padding: 0;
+	grid-auto-flow: column;
+	margin: 0;
+	gap: 8px;
+}
+
+.vt-pagination {
+	padding: 30px;
+	color: $oxio-green;
+
+	.page-item {
+		a {
+			font-size: 18px;
+			color: #ffffff;
+			text-decoration: none;
+
+			&:hover, &:active {
+				text-decoration: underline;
+			}
+		}
+
+		&.active a {
+			color: $oxio-green;
+			text-decoration: underline;
+		}
+	}
+
+	.page-item, .page-link {
+		display: inline-flex;
+	}
+
+	.page-link {
+		align-items: center;
+	}
+}
+</style>
