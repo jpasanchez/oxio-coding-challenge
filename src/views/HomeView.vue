@@ -1,16 +1,15 @@
 <template>
   <div class="home">
     <VTable
-        v-if="posts"
-        :data="posts">
+				:data="posts">
       <template #head>
         <tr>
-          <th>User Id</th>
-          <th>Title</th>
-          <th>Body</th>
+					<VTh sortKey="userId" defaultSort="desc">User Id</VTh>
+					<VTh sortKey="title">Title</VTh>
+					<VTh :sortKey="bodyLength">Body</VTh>
         </tr>
       </template>
-      <template #body="{ rows }">
+      <template #body="{rows}">
         <tr v-for="row in rows" :key="row.id">
           <td>{{ row.userId }}</td>
           <td>{{ row.title }}</td>
@@ -24,6 +23,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import { ref, nextTick } from 'vue'
 
 export default {
   name: 'HomeView',
@@ -31,8 +31,9 @@ export default {
     HelloWorld
   },
   data: () => ({
-    posts: [],
     error: null,
+		loading: true,
+		posts: [],
   }),
   async beforeRouteEnter(to, from, next) {
     try {
@@ -44,15 +45,20 @@ export default {
     }
   },
   mounted() {
-    // console.log('mounted');
-  },
+	},
+	computed: {
+	},
   methods: {
     setPost(posts) {
       this.posts = posts;
+			this.loading = false;
     },
     setError(err) {
       this.error = err.toString();
-    }
+    },
+		bodyLength(row) {
+			return row.body.length;
+		}
   }
 }
 </script>
