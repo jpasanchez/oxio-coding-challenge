@@ -7,16 +7,11 @@
 </template>
 
 <style lang="scss">
-//
-//$oxio-green: #87fac8;
-//$oxio-primary-blue: #012730;
-
 #app {
   font-family: oxio-serif, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  //color: #2c3e50;
 	background-image: linear-gradient(#083f6e, #012730);
 	color: #ffffff;
 }

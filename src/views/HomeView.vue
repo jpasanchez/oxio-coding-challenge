@@ -28,7 +28,6 @@
 				</VTable>
 			</div>
 
-
 			<div class="sorting-table__pagination">
 				<VTPagination
 					v-model:currentPage="currentPage"
@@ -67,10 +66,6 @@ export default {
       next(vm => vm.setError(err));
     }
   },
-  mounted() {
-	},
-	computed: {
-	},
   methods: {
     setPost(posts) {
       this.posts = posts;
@@ -86,10 +81,21 @@ export default {
 }
 </script>
 <style lang="scss">
+.home {
+	@media screen and (max-width: 767px) {
+		padding: 20px;
+	}
+}
+
 .sorting-table__table {
 	display: flex;
 	justify-content: center;
 	font-size: 17px;
+
+	@media screen and (max-width: 767px) {
+		display: block;
+		overflow-x: auto;
+	}
 }
 
 .sorting-table__pagination {
@@ -97,12 +103,13 @@ export default {
 }
 
 .v-table {
-	width: 75%;
-	display: grid;
-
 	thead {
 		display: block;
 		margin-bottom: 20px;
+
+		@media screen and (min-width: 768px) {
+			margin-bottom: 30px;
+		}
 	}
 
 	tbody {
@@ -113,6 +120,11 @@ export default {
 	.v-th {
 		font-family: oxio-sans-serif;
 		display: inline-block;
+
+		svg {
+			margin-left: 5px;
+			transform: translateY(2px);
+		}
 	}
 
 	tr {
@@ -121,6 +133,32 @@ export default {
 		grid-template-rows: auto;
 		width: 100%;
 		align-items: center;
+
+		@media screen and (min-width: 1200px) {
+			gap: 20px;
+		}
+	}
+
+	@media screen and (max-width: 767px) {
+		tr {
+			grid-template-columns: 75px 300px 300px;
+		}
+	}
+
+	@media screen and (min-width: 768px) {
+		width: 90%;
+
+		tr {
+			grid-template-columns: 0.5fr 1fr 1fr;
+		}
+	}
+
+	@media screen and (min-width: 1200px) {
+		width: 75%;
+
+		tr {
+			grid-template-columns: 0.5fr 0.75fr 1fr;
+		}
 	}
 }
 
