@@ -35,21 +35,13 @@
 					:boundary-links="true"
 				/>
 			</div>
-
 		</div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import { ref, nextTick } from 'vue'
-
 export default {
   name: 'HomeView',
-  components: {
-    HelloWorld
-  },
   data: () => ({
     error: null,
 		loading: true,
