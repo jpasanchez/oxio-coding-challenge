@@ -9,25 +9,15 @@
 
 <script>
 import BarChart from '@/components/BarChart'
+import { mapState, mapActions } from 'vuex'
 
 export default {
 	name: 'AboutView',
 	components: {
 		BarChart
 	},
-
-	data: () => ({
-		posts: [],
-		loaded: false,
-	}),
-	async beforeRouteEnter(to, from, next) {
-		try {
-			await fetch('https://jsonplaceholder.typicode.com/posts')
-				.then((response) => response.json())
-				.then((json) => next(vm => vm.setPost(json)));
-		} catch (err) {
-			next(vm => vm.setError(err));
-		}
+	created () {
+		this.$store.dispatch('posts/getAllPosts')
 	},
 	methods: {
 		setPost(posts) {
@@ -69,7 +59,11 @@ export default {
 
 			return newDataArr;
 		},
-	}
+		...mapState({
+			posts: state => state.posts.all,
+			loaded: state => state.posts.loaded
+		})
+	},
 }
 
 </script>

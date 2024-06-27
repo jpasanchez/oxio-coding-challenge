@@ -40,36 +40,27 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'HomeView',
   data: () => ({
     error: null,
 		loading: true,
-		posts: [],
 		totalPages: 1,
 		currentPage: 1
   }),
-  async beforeRouteEnter(to, from, next) {
-    try {
-      await fetch('https://jsonplaceholder.typicode.com/posts')
-        .then((response) => response.json())
-        .then((json) => next(vm => vm.setPost(json)));
-    } catch (err) {
-      next(vm => vm.setError(err));
-    }
-  },
+	created () {
+		this.$store.dispatch('posts/getAllPosts')
+	},
   methods: {
-    setPost(posts) {
-      this.posts = posts;
-			this.loading = false;
-    },
-    setError(err) {
-      this.error = err.toString();
-    },
 		bodyLength(row) {
 			return row.body.length;
 		}
-  }
+  },
+	computed: mapState({
+		posts: state => state.posts.all
+	}),
 }
 </script>
 <style lang="scss">
