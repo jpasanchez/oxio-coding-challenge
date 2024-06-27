@@ -11,7 +11,6 @@
   font-family: oxio-serif, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
 	background-image: linear-gradient(#083f6e, #012730);
 	color: #ffffff;
 }

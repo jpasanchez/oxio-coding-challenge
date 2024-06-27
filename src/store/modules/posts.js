@@ -6,7 +6,7 @@ const state = () => ({
   loaded: false,
 })
 
-// getters
+// getter
 const getters = {}
 
 // actions
@@ -14,6 +14,10 @@ const actions = {
   async getAllPosts ({ commit }) {
     const posts = await shop.getPosts()
     commit('setPosts', posts)
+  },
+
+  addNewPost ({ state, commit }, post) {
+    commit('pushNewPost', post )
   }
 }
 
@@ -24,10 +28,9 @@ const mutations = {
     state.loaded = true
   },
 
-  decrementProductInventory (state, { id }) {
-    const product = state.all.find(product => product.id === id)
-    product.inventory--
-  }
+  pushNewPost (state, post ) {
+    state.all.push(post)
+  },
 }
 
 export default {

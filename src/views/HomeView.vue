@@ -36,6 +36,28 @@
 				/>
 			</div>
 		</div>
+
+		<div class="post-form">
+			<form v-on:submit.prevent="validateForm">
+				<div class="success-message" :class="{ 'success' : validUserId === true }">Success</div>
+
+				<p>Add post</p>
+				<div class="form-field userid" :class="{ 'error' : validUserId === false }">
+					<div>User Id:</div>
+					<input type="text" required v-model="userId">
+					<div class="error-message" :class="{ 'has-errors' : validUserId === false }">Please enter number</div>
+				</div>
+				<div class="form-field post-title">
+					<div>Post Title</div>
+					<input type="text" required v-model="postTitle">
+				</div>
+				<div class="form-field post-body">
+					<textarea v-model="postBody" placeholder="post body"></textarea>
+				</div>
+
+				<button type="submit">Add post</button>
+			</form>
+		</div>
   </div>
 </template>
 
@@ -45,18 +67,46 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'HomeView',
   data: () => ({
+		message: null,
     error: null,
 		loading: true,
 		totalPages: 1,
-		currentPage: 1
+		currentPage: 1,
+		userId: null,
+		postTitle: null,
+		postBody: null,
+		validUserId: null,
   }),
 	created () {
 		this.$store.dispatch('posts/getAllPosts')
 	},
   methods: {
+		validateForm() {
+			const userIdRegExp = /^[1-9]+$/;
+			this.validUserId = userIdRegExp.test(this.userId);
+
+			if (this.validUserId) {
+				this.addItem();
+			}
+		},
 		bodyLength(row) {
 			return row.body.length;
-		}
+		},
+		addItem() {
+			let post = {
+				userId: this.userId,
+				title: this.postTitle,
+				body: this.postBody
+			}
+
+			this.addNewPost(post);
+			this.userId = null
+			this.postTitle = null
+			this.postBody = null
+		},
+		...mapActions('posts', [
+			'addNewPost'
+		]),
   },
 	computed: mapState({
 		posts: state => state.posts.all
@@ -64,6 +114,24 @@ export default {
 }
 </script>
 <style lang="scss">
+.error-message {
+	display: none;
+
+	&.has-errors {
+		display: block;
+	}
+}
+
+.form-field.error {
+	input {
+		background: red;
+	}
+}
+
+.error-message {
+	color: red;
+}
+
 .home {
 	@media screen and (max-width: 767px) {
 		padding: 20px;
@@ -98,11 +166,16 @@ export default {
 	tbody {
 		display: grid;
 		gap: 20px;
+		text-align: center;
 	}
 
 	.v-th {
 		font-family: oxio-sans-serif;
 		display: inline-block;
+
+		&:hover {
+			cursor: pointer;
+		}
 
 		svg {
 			margin-left: 5px;
@@ -120,6 +193,10 @@ export default {
 		@media screen and (min-width: 1200px) {
 			gap: 20px;
 		}
+	}
+
+	td {
+		word-break: break-all;
 	}
 
 	@media screen and (max-width: 767px) {
@@ -157,6 +234,7 @@ export default {
 .vt-pagination {
 	padding: 30px;
 	color: $oxio-green;
+	text-align: center;
 
 	.page-item {
 		a {
@@ -183,4 +261,43 @@ export default {
 		align-items: center;
 	}
 }
+
+.success-message {
+	display: none;
+
+	&.success {
+		display: block;
+	}
+}
+
+.post-form {
+	display: flex;
+	justify-content: center;
+
+	form {
+		@media screen and (min-width: 768px) {
+			width: 25%;
+		}
+	}
+
+	textarea {
+		width: 100%;
+		height: 200px;
+	}
+}
+
+.form-field {
+	display: flex;
+	margin-top: 10px;
+
+	> div {
+		margin-right: 20px;
+	}
+
+	input {
+		flex: 1;
+	}
+}
+
+
 </style>
