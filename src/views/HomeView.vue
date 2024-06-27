@@ -94,7 +94,7 @@ export default {
 		},
 		addItem() {
 			let post = {
-				userId: this.userId,
+				userId: parseInt(this.userId, 10),
 				title: this.postTitle,
 				body: this.postBody
 			}

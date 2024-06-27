@@ -4,6 +4,7 @@ import shop from '../../api/shop'
 const state = () => ({
   all: [],
   loaded: false,
+  initialized: false,
 })
 
 // getter
@@ -12,8 +13,11 @@ const getters = {}
 // actions
 const actions = {
   async getAllPosts ({ commit }) {
-    const posts = await shop.getPosts()
-    commit('setPosts', posts)
+    if (!state.initialized) {
+      const posts = await shop.getPosts()
+      commit('setPosts', posts)
+      state.initialized = true;
+    }
   },
 
   addNewPost ({ state, commit }, post) {

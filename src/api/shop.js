@@ -2,8 +2,9 @@ import posts from '@/assets/json/posts.json'
 
 export default {
   async getPosts () {
-    await wait(100);
-    return posts;
+    return await fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.json())
+      .then((json) => json)
   },
 }
 
